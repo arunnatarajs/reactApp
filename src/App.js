@@ -1,23 +1,29 @@
-import logo from './logo.svg';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom"
 import './App.css';
-
+import GetCommits from './Get/GetCommits'
+import GetDiff from './Get/GetDiff'
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <div className='p'>
+          <Switch>
+
+            <Route exact path="/repo/:owner/:repository/commits/:oid">
+              <GetCommits/>
+            </Route>
+
+            <Route exact path="/repo/:owner/:repository/commits/:oid/diff">
+              <GetDiff/>
+            </Route>
+            
+          </Switch>
+        </div>
+      </Router> 
     </div>
   );
 }
