@@ -13,14 +13,16 @@ function GetDiff(){
             xhr.onload = function () {
                 const data = JSON.parse(this.response);
                 var psha = data.parents[0].sha; //parent sha
-                //const durl=`https://api.github.com/repos/${owner}/${repository}/commits/${oid}`;
-                const durl = `https://github.com/${owner}/${repository}/compare/${psha}...${oid}.diff`;
+                //const durl=`https://api.github.com/repos/${owner}/${repository}/commits/${psha}`;
+                const durl = `https://api.github.com/repos/${owner}/${repository}/compare/${psha}...${oid}`;
 
                 var dxhr = new XMLHttpRequest();
                 dxhr.open('GET', durl, true);
 
                 dxhr.onload = function () {
-                    setGetDiff(this.response);
+                    const da = JSON.parse(this.response);
+                    console.log(da.files[1].patch)
+                    setGetDiff(da.files[1].patch);
                 };
                 dxhr.send();
             };
@@ -28,7 +30,7 @@ function GetDiff(){
         },[curl])
     
     return(
-        <pre> {diff} </pre>
+        <pre className="blob-code blob-code-d"> {diff} </pre>
     )
 }
 
