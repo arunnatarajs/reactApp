@@ -6,6 +6,10 @@ function GetDiff(){
     const {owner,repository,oid}=useParams();
     const curl=`https://api.github.com/repos/${owner}/${repository}/commits/${oid}`;
     const [diff, setGetDiff] = useState([]);
+    const [parent, setParent] = useState([]);
+    const [date, setDate] = useState([]);
+    const [user, setUser] = useState([]);
+
     useEffect( () => {
             var xhr = new XMLHttpRequest();
             xhr.open('GET', curl, true);
@@ -13,6 +17,9 @@ function GetDiff(){
             xhr.onload = function () {
                 const data = JSON.parse(this.response);
                 var psha = data.parents[0].sha; //parent sha
+                setParent(data.parents[0].sha)
+                setUser(data.commit.author.name)
+                setDate(data.commit.author.date)
                 //const durl=`https://api.github.com/repos/${owner}/${repository}/commits/${psha}`;
                 const durl = `https://api.github.com/repos/${owner}/${repository}/compare/${psha}...${oid}`;
 
@@ -20,9 +27,12 @@ function GetDiff(){
                 dxhr.open('GET', durl, true);
 
                 dxhr.onload = function () {
-                    const da = JSON.parse(this.response);
-                    console.log(da.files[1].patch)
-                    setGetDiff(da.files[1].patch);
+                    const diffdata = JSON.parse(this.response);
+                
+                    for(let i in diffdata.files)
+                    {
+                        setGetDiff(diffdata.files[i].patch);
+                    }
                 };
                 dxhr.send();
             };
@@ -30,7 +40,11 @@ function GetDiff(){
         },[curl])
     
     return(
-        <pre className="blob-code blob-code-d"> {diff} </pre>
+        <><pre className="blob-code"> {diff} </pre>
+        <p> {parent} </p>
+        <p> {date} </p>
+        <p> {user} </p>
+        </>
     )
 }
 

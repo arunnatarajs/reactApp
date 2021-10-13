@@ -49,21 +49,3 @@ pre{
   line-height: 20px;
   color: #657B83;
 }
-
-.blob-code-d
-{
-  background-color:#ffebe9 ;
-  outline: 1px dashed transparent;
-  outline-color: transparent;
-  outline-style: dashed;
-  outline-width: 1px;
-}
-
-.blob-code
-{
-  position: relative;
-  padding-right: 10px;
-  padding-left: 10px;
-  line-height: 20px;
-  vertical-align: top;
-}
