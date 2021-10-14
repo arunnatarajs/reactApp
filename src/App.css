@@ -36,3 +36,34 @@
     transform: rotate(360deg);
   }
 }
+
+.collapsiblelink{
+  font: Courier New , Bold;
+  size: 13px;
+  color: #1C7CD6;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  font-size: 15px;
+  background-color: white;
+}
+
+
+.collapsiblelink:after {
+  content: ' \02C3';
+  font: Courier New , Bold;
+  size: 13px;
+  color: #1C7CD6;
+  cursor: pointer;
+  background-color: white;
+  text-align: left;
+  float: left;
+  font-size: 15px;
+  margin-right: 5px;
+}
+
+.active:after {
+  content: ' \02C5';
+}
