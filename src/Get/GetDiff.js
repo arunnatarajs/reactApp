@@ -13,6 +13,7 @@ function GetDiff(){
     var [commitedby,setCommittedby] = useState();
     var [authorname,setAuthorname] = useState();
     var [authorphoto,setAuthorphoto] = useState();
+    var [filename,setFilename] = useState();
     var psha;
 
     useEffect( () => {
@@ -39,6 +40,7 @@ function GetDiff(){
                     const diffdata = JSON.parse(this.response);
                     
                     // for(var i in diffdata.files){
+                    setFilename(diffdata.files[0].filename);
                     setGetDiff(diffdata.files[0].patch);
                     // }
         
@@ -49,7 +51,7 @@ function GetDiff(){
         },[curl,oid,owner,parentid,repository])
     
     return(
-    <html>
+    <html class ="center">
         <header>
             <div className="left">
 
@@ -75,7 +77,7 @@ function GetDiff(){
         <body>
             <article>
                 <div>
-                    <button type="button" class="collapsiblelink">Openn</button>
+                    <button type="button" class="collapsiblelink" onClick={() => display()}>{filename}</button>
                         <div class="content">
                             {diff}
                             </div>
@@ -89,10 +91,10 @@ function GetDiff(){
 }
 
 var coll = document.getElementsByClassName("collapsiblelink");
-var i;
+// var i;
 
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
+function display() {
+  coll[0].addEventListener("click", function() {
     this.classList.toggle("active");
     var content = this.nextElementSibling;
     if (content.style.display === "block") {
