@@ -37,6 +37,17 @@
   }
 }
 
+article{
+  align-self: center;
+  text-align-last: left;
+  padding-top: 150px;
+}
+
+.content {
+  display: none;
+}
+
+
 .collapsiblelink{
   font: Courier New , Bold;
   size: 13px;
@@ -66,4 +77,24 @@
 
 .active:after {
   content: ' \02C5';
+}
+
+
+div.content{
+
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  font-family: Courier New;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 20px;
+  color: #657B83;
+  text-align: left;
+
+  margin: auto;
+  width: auto;
+  padding: 10px;
+  border: 2px solid #657B83;
+  border-style: inset;
 }

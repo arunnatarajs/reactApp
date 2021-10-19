@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router';
+import axios from 'axios';
 
 function GetCommits(){
 
@@ -8,18 +9,15 @@ function GetCommits(){
     const [commits, setGetCommits] = useState([])
 
     useEffect( () => {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-
-        xhr.onload = function () {
-            setGetCommits(this.response)
-        }
-        xhr.send()
-
+        axios.get(url)
+            .then((json) => setGetCommits(json.data))
     },[url])
 
     return(
-        <pre> {commits} </pre>
+        <>
+        
+            <pre > {JSON.stringify(commits)} </pre>;
+        </>
     )
 }
 

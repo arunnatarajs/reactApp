@@ -63,7 +63,15 @@ p.header{
   text-align-last: right;
 }
 
+.center{
+
+  margin: auto;
+  width: auto;
+  padding: 20px;
+}
 article{
+  align-self: center;
+  text-align-last: left;
   padding-top: 150px;
 }
 
@@ -72,23 +80,32 @@ article{
 }
 
 
-.collapsible{
-  position: absolute;
-  width: 255px;
-  height: 20px;
-  
-  font-family: Arial;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 140.84%;
-  letter-spacing: 0.04em;
+.collapsiblelink{
+  font: Courier New , Bold;
+  size: 13px;
   color: #1C7CD6;
-  
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  font-size: 15px;
+  background-color: white;
 }
 
 
-
+.collapsiblelink:after {
+  content: ' \02C3';
+  font: Courier New , Bold;
+  size: 13px;
+  color: #1C7CD6;
+  cursor: pointer;
+  background-color: white;
+  text-align: left;
+  float: left;
+  font-size: 15px;
+  margin-right: 5px;
+}
 
 .active:after {
   content: ' \02C5';
@@ -106,15 +123,10 @@ div.content{
   line-height: 20px;
   color: #657B83;
   text-align: left;
-}
 
-.active, .collapsible:hover {
-  background-color: #555;
-}
-
-.content {
-  padding: 0 18px;
-  display: none;
-  overflow: hidden;
-  background-color: #f1f1f1;
+  margin: auto;
+  width: auto;
+  padding: 10px;
+  border: 2px solid #657B83;
+  border-style: inset;
 }
