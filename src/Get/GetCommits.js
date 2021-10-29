@@ -54,11 +54,13 @@ function GetCommits(){
         </header>
 
         <body>
+
             <article>
                 <pre>
                     {JSON.stringify(commits)}
                 </pre>
             </article>
+            
         </body>
 
     </html>

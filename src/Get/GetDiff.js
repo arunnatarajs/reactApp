@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router';
+import display from '../commponents/Display';
 
 function GetDiff(){
 
@@ -62,6 +63,7 @@ function GetDiff(){
         </header>
 
         <body>
+
             <article>
                 <div>
                 <button className="collapsible" onClick={()=>display()}>load Diff </button>
@@ -70,22 +72,11 @@ function GetDiff(){
                     </div>
                 </div>
             </article>
+
         </body>
 
     </html>
     )
 }
-           
-function display(){
-    var coll = document.getElementsByClassName("collapsible");
-    coll[0].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.display === "block") {
-        content.style.display = "none";
-        } else {
-        content.style.display = "block";
-        }
-    });
-}
+
 export default GetDiff
