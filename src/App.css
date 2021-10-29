@@ -98,3 +98,8 @@ div.content{
   border: 2px solid #657B83;
   border-style: inset;
 }
+
+pre{
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router';
 
@@ -16,37 +17,25 @@ function GetDiff(){
     var psha;
 
     useEffect( () => {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', curl, true);
+        axios.get(curl)
+        .then((json)=>{
+            var currdate = new Date();
+            setDays(Math.floor((currdate-Date.parse(json.data.commit.committer.date))/(1000*3600*24)));
+            setAuthorname(json.data.commit.author.name);
+            setCommittedby(json.data.commit.committer.name);
+            psha = json.data.parents[0].sha;
+            setParentid(json.data.parents[0].sha);
+            setAuthorphoto(json.data.author.avatar_url);
 
-            xhr.onload = function () {
-                const data = JSON.parse(this.response);
-
-                var currdate = new Date();
-                setDays(Math.floor((currdate-Date.parse(data.commit.committer.date))/(1000*3600*24)));
-                setAuthorname(data.commit.author.name);
-                setCommittedby(data.commit.committer.name);
-                psha = data.parents[0].sha;
-                setParentid(data.parents[0].sha);
-                setAuthorphoto(data.author.avatar_url);
-
-                const durl = `https://api.github.com/repos/${owner}/${repository}/compare/${psha}...${oid}`;
-
-                var dxhr = new XMLHttpRequest();
-                dxhr.open('GET', durl, true);
-
-                dxhr.onload = function () {
-                    const diffdata = JSON.parse(this.response);
-                    
-                    // for(var i in diffdata.files){
-                    setGetDiff(diffdata.files[0].patch);
-                    // }
-        
-                };
-                dxhr.send();
-            };
-            xhr.send();
-        },[curl,oid,owner,parentid,repository])
+            const durl = `https://api.github.com/repos/${owner}/${repository}/compare/${psha}...${oid}`;
+            axios.get(durl)
+            .then((res)=>{
+                // for(var i in diffdata.files){
+                setGetDiff(res.data.files[0].patch);
+                // }
+            })
+        })
+    },[curl,oid,owner,parentid,repository])
     
     return(
     <html>
@@ -76,7 +65,7 @@ function GetDiff(){
             <article>
                 <div>
                 <button className="collapsible" onClick={()=>display()}>load Diff </button>
-                    <div class="content">
+                    <div className="content">
                     {diff}
                     </div>
                 </div>
@@ -86,7 +75,7 @@ function GetDiff(){
     </html>
     )
 }
-
+           
 function display(){
     var coll = document.getElementsByClassName("collapsible");
     coll[0].addEventListener("click", function() {
