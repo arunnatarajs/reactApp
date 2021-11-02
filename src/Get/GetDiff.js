@@ -15,7 +15,9 @@ function GetDiff(){
     var [commitedby,setCommittedby] = useState();
     var [authorname,setAuthorname] = useState();
     var [authorphoto,setAuthorphoto] = useState();
-    var [filename,setFilename] = useState();
+    var [filename,setFilename] = useState([]);
+    var [diff1, setGetDiff1] = useState([]);
+    var [filename1,setFilename1] = useState([]);
     var psha;
 
     useEffect( () => {
@@ -32,11 +34,23 @@ function GetDiff(){
             const durl = `https://api.github.com/repos/${owner}/${repository}/compare/${psha}...${oid}`;
             axios.get(durl)
             .then((res)=>{
-                // for(var i in diffdata.files){
-                setGetDiff(res.data.files[0].patch);
-                setFilename(res.data.files[0].filename);
+
+                const span = document.createElement('span');
+                span.innerHTML = '<button>butt</button>';
+                const log = document.getElementById('eventlog');
+                log.append(span);
+
+                setGetDiff([...diff, { 
+                    id : diff.length, 
+                    value : res.data.files[0].patch
+                }]);
                 
-                // }
+                setFilename(res.data.files[0].filename);
+
+                for(var i in res.data.files){
+                    setGetDiff1(res.data.files[i].patch)            
+                    setFilename1(res.data.files[i].filename);
+                }
             })
         })
     },[curl,oid,owner,parentid,repository])
@@ -54,6 +68,7 @@ function GetDiff(){
                 <div className="left"><p className="header">Frame</p>
                     <p><span className="muted">Authored by </span><span className="body-text">{authorname}</span></p>
                 </div>
+                
 
             </div>
 
@@ -69,11 +84,25 @@ function GetDiff(){
 
             <article>
                 <div>
-                <button className="collapsible" onClick={()=>display()}> {filename} </button>
+                <span id="eventlog"/>
+                </div>
+
+                <div>
+                <button className="collapsible" key={diff.id} onClick={()=>display(0)}> {filename} </button>
                     <div className="content">
-                    {diff}
+                    {diff.map(dif =>(
+                        <p>{dif.value}</p>
+                    ))}
                     </div>
                 </div>
+
+                <div>
+                <button className="collapsible" onClick={()=>display(1)}> {filename1} </button>
+                    <div className="content">
+                    {diff1}
+                    </div>
+                </div>         
+
             </article>
 
         </body>

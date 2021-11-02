@@ -1,6 +1,6 @@
-function display(){
+function display(y){
     var coll = document.getElementsByClassName("collapsible");
-    coll[0].addEventListener("click", function() {
+    coll[y].addEventListener("click", function() {
         
         this.classList.toggle("active");
         var content = this.nextElementSibling;

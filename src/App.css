@@ -45,10 +45,16 @@ article{
   padding-top: 150px;
 }
 
+button{
+  color: #1C7CD6;
+  border: none;
+  background: none;
+  padding-bottom: 30px;
+}
+
 .content {
   display: none;
 }
-
 
 .collapsiblelink{
   font: Courier New , Bold;
