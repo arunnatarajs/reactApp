@@ -15,6 +15,7 @@ function GetDiff(){
     var [commitedby,setCommittedby] = useState();
     var [authorname,setAuthorname] = useState();
     var [authorphoto,setAuthorphoto] = useState();
+    var [filename,setFilename] = useState();
     var psha;
 
     useEffect( () => {
@@ -33,6 +34,8 @@ function GetDiff(){
             .then((res)=>{
                 // for(var i in diffdata.files){
                 setGetDiff(res.data.files[0].patch);
+                setFilename(res.data.files[0].filename);
+                
                 // }
             })
         })
@@ -66,7 +69,7 @@ function GetDiff(){
 
             <article>
                 <div>
-                <button className="collapsible" onClick={()=>display()}>load Diff </button>
+                <button className="collapsible" onClick={()=>display()}> {filename} </button>
                     <div className="content">
                     {diff}
                     </div>
