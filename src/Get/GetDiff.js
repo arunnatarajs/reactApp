@@ -8,14 +8,16 @@ function GetDiff(){
 
     const curl=`https://api.github.com/repos/${owner}/${repository}/commits/${oid}`;
 
-    var [diff, setGetDiff] = useState([]);
+    var [diff, setGetDiff] = useState();
     var [days,setDays] = useState();
     var [parentid,setParentid] = useState();
     var [commitedby,setCommittedby] = useState();
     var [authorname,setAuthorname] = useState();
     var [authorphoto,setAuthorphoto] = useState();
     var [filename,setFilename] = useState();
-    var psha;
+    var [files, setFiles] = useState([]);
+    var [filename,setFilename] = useState([]);
+    var psha ,diff1;
 
     useEffect( () => {
         axios.get(curl)
@@ -32,11 +34,17 @@ function GetDiff(){
             
             axios.get(durl)
             .then((res)=>{
-                setGetDiff(res.data.files[0].patch.split("\n"));
-                setFilename(res.data.files[0].filename);
+                for(var i in res.data.files){
+                    files.push(res.data.files[i].patch.split("\n"));
+                    filename.push(res.data.files[i].filename);
+                }
+                // setGetDiff(res.data.files[0].patch.split("\n"));
+                // setFilename(res.data.files[0].filename);
             })
         })
     },[curl,oid,owner,parentid,repository])
+
+    console.log(files)
     
     return(
     <html class ="center">
@@ -65,14 +73,16 @@ function GetDiff(){
         <body>
             <article>
                 <div>
-                    <button type="button" class="collapsiblelink" onClick={() => display()}>{filename}</button>
-                        <div class="content">
-                        {diff.map(name => (  
-          <li>  
-            {name}  
-          </li>  
-        ))}  
-                            </div>
+                    {files.map((file,index) =>(
+                         <><button type="button" class="collapsiblelink" onClick={() => display(index)}>{filename[index]}</button><div class="content">
+                            
+                            {file.map(name => (
+                                <li>
+                                    {name}
+                                </li>
+                            ))}
+                        </div></>
+                    ))}
 
                 </div>
             </article>
@@ -83,10 +93,9 @@ function GetDiff(){
 }
 
 var coll = document.getElementsByClassName("collapsiblelink");
-// var i;
 
-function display() {
-  coll[0].addEventListener("click", function() {
+function display(i) {
+  coll[i].addEventListener("click", function() {
     this.classList.toggle("active");
     var content = this.nextElementSibling;
     if (content.style.display === "block") {
