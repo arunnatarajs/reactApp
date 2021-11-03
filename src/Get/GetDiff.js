@@ -13,6 +13,7 @@ function GetDiff(){
     var [commitedby,setCommittedby] = useState();
     var [authorname,setAuthorname] = useState();
     var [authorphoto,setAuthorphoto] = useState();
+    var [authordate, setAuthordate] = useState();
     var [files, setFiles] = useState([]);
     var [filename,setFilename] = useState([]);
     var psha;
@@ -33,7 +34,10 @@ function GetDiff(){
             axios.get(durl)
             .then((res)=>{
                 for(var i in res.data.files){
-                    files.push(res.data.files[i].patch.split("\n"));
+                    
+                    
+                    var sam = res.data.files[i].patch.split("\n")
+                    setFiles(files => [...files, sam]);
                     filename.push(res.data.files[i].filename);
                 }
             })
@@ -44,7 +48,10 @@ function GetDiff(){
         })
     },[curl,oid,owner,parentid,repository])
 
+    files = files.slice(0,files.length/2);
+
     console.log(files)
+    console.log(filename)
     
     return(
     <html class ="center">
@@ -74,18 +81,26 @@ function GetDiff(){
             <article>
                 <div>
                     {files.map((file,index) =>(
-                         <><button type="button" class="collapsiblelink" onClick={() => display(index)}>{filename[index]}</button><div class="content">
+                         <><button type="button" class="collapsiblelink" onClick={() => display(index)}>{filename[index]}</button>
+                         <div class="content">
                             
-                            {file.map(name => (
-                            
-                                <li>
-                                    {name}
-                                </li>
+                            {file.map(line => (
+<tr>
+                                <td>
+                                  <span> {file.length}</span>
+                                    </td>
+
+                                <td>
+                                   <span> 20  </span>
+                                    </td>
+                                <td>
+                                    {line}
+                                </td>
+                                </tr>
 
                             ))}
                         </div></>
                     ))}
-
                 </div>
             </article>
         </body>
