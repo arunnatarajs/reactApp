@@ -8,16 +8,14 @@ function GetDiff(){
 
     const curl=`https://api.github.com/repos/${owner}/${repository}/commits/${oid}`;
 
-    var [diff, setGetDiff] = useState();
     var [days,setDays] = useState();
     var [parentid,setParentid] = useState();
     var [commitedby,setCommittedby] = useState();
     var [authorname,setAuthorname] = useState();
     var [authorphoto,setAuthorphoto] = useState();
-    var [filename,setFilename] = useState();
     var [files, setFiles] = useState([]);
     var [filename,setFilename] = useState([]);
-    var psha ,diff1;
+    var psha;
 
     useEffect( () => {
         axios.get(curl)
@@ -38,8 +36,10 @@ function GetDiff(){
                     files.push(res.data.files[i].patch.split("\n"));
                     filename.push(res.data.files[i].filename);
                 }
-                // setGetDiff(res.data.files[0].patch.split("\n"));
-                // setFilename(res.data.files[0].filename);
+            })
+
+            .catch((e)=>{
+                console.log("no patch found");
             })
         })
     },[curl,oid,owner,parentid,repository])
@@ -77,9 +77,11 @@ function GetDiff(){
                          <><button type="button" class="collapsiblelink" onClick={() => display(index)}>{filename[index]}</button><div class="content">
                             
                             {file.map(name => (
+                            
                                 <li>
                                     {name}
                                 </li>
+
                             ))}
                         </div></>
                     ))}
