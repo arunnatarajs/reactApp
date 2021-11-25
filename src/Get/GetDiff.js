@@ -6,7 +6,8 @@ function GetDiff(){
 
     const {owner,repository,oid}=useParams();
 
-    const curl=`https://api.github.com/repos/${owner}/${repository}/commits/${oid}`;
+    // const curl=`https://api.github.com/repos/${owner}/${repository}/commits/${oid}`;
+    const curl=`http://localhost:8081/repositories/${owner}/${repository}/commits/${oid}`;
 
     var [days,setDays] = useState();
     var [parentid,setParentid] = useState();
@@ -29,7 +30,8 @@ function GetDiff(){
             setParentid(json.data.parents[0].sha);
             setAuthorphoto(json.data.author.avatar_url);
 
-            const durl = `https://api.github.com/repos/${owner}/${repository}/compare/${psha}...${oid}`;
+            // const durl = `https://api.github.com/repos/${owner}/${repository}/compare/${psha}...${oid}`;
+            const durl = `http://localhost:8081/repositories/${owner}/${repository}/commits/${oid}/diff`;
             
             axios.get(durl)
             .then((res)=>{
@@ -49,9 +51,6 @@ function GetDiff(){
     },[curl,oid,owner,parentid,repository])
 
     files = files.slice(0,files.length/2);
-
-    console.log(files)
-    console.log(filename)
     
     return(
     <html class ="center">
